@@ -1,16 +1,6 @@
 <?php
 
-$db_host = "localhost";
-$db_name = "cms";
-$db_user = "noogai123";
-$db_password = "d(z.NNGVZskZh5P3";
-
-$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name); // connection to db variable
-
-if (mysqli_connect_error()) {
-    echo mysqli_connect_error();
-    exit;
-}
+require 'includes/database.php';
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) { // check if id is number and not null, for safety
 
@@ -34,32 +24,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // check if id is number an
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
+<?php require 'includes/header.php'  ?>
+<?php if ($article === null) : ?>
+    <p>No Articles Found.</p>
+<?php else :  ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <article>
+        <h2><?= $article['title'];  ?></h2>
+        <p><?= $article['content'];  ?></p>
+    </article>
 
-<body>
-    <header>
-        <h1>My Blog</h1>
-    </header>
-    <main>
-        <?php if ($article === null) : ?>
-            <p>No Articles Found.</p>
-        <?php else :  ?>
-
-            <article>
-                <h2><?= $article['title'];  ?></h2>
-                <p><?= $article['content'];  ?></p>
-            </article>
-
-        <?php endif; ?>
-    </main>
-</body>
-
-</html>
+<?php endif; ?>
+<?php require 'includes/footer.php'  ?>
