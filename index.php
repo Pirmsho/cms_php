@@ -2,6 +2,8 @@
 
 require 'includes/database.php';
 
+$conn = getDB();
+
 $sql = "SELECT * FROM article ORDER BY id;";
 
 $results = mysqli_query($conn, $sql); // results from given query 
@@ -17,6 +19,7 @@ if ($results === false) {
 ?>
 
 <?php require 'includes/header.php' ?>
+<a href="/udemy_php/new-article.php">New Article</a>
 <?php if (empty($articles)) : ?>
     <p>No Articles Found.</p>
 <?php else :  ?>
@@ -26,9 +29,9 @@ if ($results === false) {
             <li>
                 <article>
                     <h2>
-                        <a href="article.php?id=<?= $article['id'] ?>"><?= $article['title'];  ?></a>
+                        <a href="article.php?id=<?= $article['id'] ?>"><?= htmlspecialchars($article['title']);  ?></a>
                     </h2>
-                    <p><?= $article['content'];  ?></p>
+                    <p><?= htmlspecialchars($article['content']);  ?></p>
                 </article>
             </li>
         <?php endforeach; ?>
