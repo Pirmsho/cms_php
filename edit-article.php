@@ -4,10 +4,26 @@ require 'includes/database.php';
 require 'includes/article-func.php';
 require 'includes/url.php';
 
-$errors = [];
-$title = "";
-$content = "";
-$published_at = "";
+
+$conn = getDB();
+
+if (isset($_GET['id'])) { // check if id is number and not null, for safety
+
+    $article = getArticle($conn, $_GET['id']);
+
+    if ($article) {
+        $id = $article['id'];
+        $title = $article['title'];
+        $content = $article['content'];
+        $published_at = $article['published_at'];
+    } else {
+
+        die('article not found');
+    }
+} else {
+
+    die("id not supplied, article not found");
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -19,12 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($errors)) {
 
-
-
-        $conn = getDB();
-
-        $sql = "INSERT INTO article (title, content, published_at)
-            VALUES (?,?,?)"; // placeholders for sql statement
+        $sql = "UPDATE article 
+                SET title = ?,
+                content = ?,
+                published_at = ?
+                WHERE id = ?"; // placeholders for sql statement
 
 
         $statement = mysqli_prepare($conn, $sql); // prepare the sql statement
@@ -38,11 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
 
-            mysqli_stmt_bind_param($statement, "sss", $_POST["title"], $_POST["content"], $_POST["published_at"]); // bind placeholders to actual values
+            mysqli_stmt_bind_param($statement, "sssi", $title, $content, $published_at, $id); // bind placeholders to actual values
 
             if (mysqli_stmt_execute($statement)) {
-
-                $id = mysqli_insert_id($conn);
 
                 redirect("/article.php?id=$id");
             } else {
@@ -55,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php require 'includes/header.php'  ?>
 
-<h2>New Article</h2>
+<h2>Edit Article</h2>
 
 <?php require 'includes/article-form.php'  ?>
 

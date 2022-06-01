@@ -1,24 +1,13 @@
 <?php
 
 require 'includes/database.php';
+require 'includes/article-func.php';
 
 $conn = getDB();
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) { // check if id is number and not null, for safety
+if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
-    $sql = "SELECT * 
-        FROM article 
-        WHERE id = " . $_GET['id'];; // superglobal for querystring
-
-    $results = mysqli_query($conn, $sql); // results from given query 
-
-    if ($results === false) {
-        echo mysqli_error($conn);
-    } else {
-        $article = mysqli_fetch_assoc($results); // fetch single row with given query and assign it to article;
-
-
-    }
+    $article = getArticle($conn, $_GET['id']);
 } else {
     $article = null;
 }
@@ -35,6 +24,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) { // check if id is number an
         <h2><?= htmlspecialchars($article['title']);  ?></h2>
         <p><?= htmlspecialchars($article['content']);  ?></p>
     </article>
-
+    <a href="edit-article.php?id=<?= $article['id']; ?>">Edit Article</a>
 <?php endif; ?>
 <?php require 'includes/footer.php'  ?>
