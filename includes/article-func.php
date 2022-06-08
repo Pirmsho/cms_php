@@ -1,8 +1,8 @@
 <?php
 
-function getArticle($conn, $id)
+function getArticle($conn, $id, $columns = '*')
 {
-    $sql = "SELECT *
+    $sql = "SELECT $columns
             FROM article
             WHERE id = ?";
 

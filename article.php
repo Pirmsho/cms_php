@@ -24,6 +24,9 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
         <h2><?= htmlspecialchars($article['title']);  ?></h2>
         <p><?= htmlspecialchars($article['content']);  ?></p>
     </article>
+
     <a href="edit-article.php?id=<?= $article['id']; ?>">Edit Article</a>
+    <a href="delete-article.php?id=<?= $article['id']; ?>">Delete Article</a>
+
 <?php endif; ?>
 <?php require 'includes/footer.php'  ?>
