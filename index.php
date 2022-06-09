@@ -1,6 +1,9 @@
 <?php
 
 require 'includes/database.php';
+require 'includes/auth.php';
+
+session_start();
 
 $conn = getDB();
 
@@ -19,7 +22,20 @@ if ($results === false) {
 ?>
 
 <?php require 'includes/header.php' ?>
-<a href="/udemy_php/new-article.php">New Article</a>
+
+<?php if (isLoggedIn()) : ?>
+    <a href="/udemy_php/new-article.php">New Article</a>
+<?php endif ?>
+
+<?php if (isLoggedIn()) : ?>
+    <p>You are logged in!</p> <a href="logout.php">Log out</a>
+
+<?php else : ?>
+    <p>You are not logged in! Please log in to add a new article.</p> <a href="login.php">Log in</a>
+<?php endif; ?>
+
+
+
 <?php if (empty($articles)) : ?>
     <p>No Articles Found.</p>
 <?php else :  ?>
