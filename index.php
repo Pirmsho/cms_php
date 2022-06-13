@@ -1,23 +1,21 @@
 <?php
 
-require 'includes/database.php';
+require 'classes/Database.php';
 require 'includes/auth.php';
 
 session_start();
 
-$conn = getDB();
+$db = new Database();
+$conn = $db->getConn();
 
 $sql = "SELECT * FROM article ORDER BY id;";
 
-$results = mysqli_query($conn, $sql); // results from given query 
+$results = $conn->query($sql); // results from given query 
 
-if ($results === false) {
-    echo mysqli_error($conn);
-} else {
-    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC); // fetch all rows with given query and assign it to articles;
+$articles = $results->fetchAll(PDO::FETCH_ASSOC); // fetch all rows with given query and assign it to 
 
 
-}
+
 
 ?>
 

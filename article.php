@@ -1,9 +1,10 @@
 <?php
 
-require 'includes/database.php';
+require 'classes/Database.php';
 require 'includes/article-func.php';
 
-$conn = getDB();
+$db = new Database();
+$conn = $db->getConn();
 
 if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
@@ -16,10 +17,7 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
 
 <?php require 'includes/header.php'  ?>
-<?php if ($article === null) : ?>
-    <p>No Articles Found.</p>
-<?php else :  ?>
-
+<?php if ($article) : ?>
     <article>
         <h2><?= htmlspecialchars($article['title']);  ?></h2>
         <p><?= htmlspecialchars($article['content']);  ?></p>
@@ -27,6 +25,9 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
     <a href="edit-article.php?id=<?= $article['id']; ?>">Edit Article</a>
     <a href="delete-article.php?id=<?= $article['id']; ?>">Delete Article</a>
+<?php else :  ?>
+    <p>No Articles Found.</p>
+
 
 <?php endif; ?>
 <?php require 'includes/footer.php'  ?>
