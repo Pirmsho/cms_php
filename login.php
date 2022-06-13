@@ -1,12 +1,17 @@
 <?php
 
+require 'classes/Database.php';
 require 'includes/url.php';
+require 'classes/User.php';
 
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if ($_POST['username'] === 'Davit' && $_POST['password'] === 'Davit') {
+    $db = new Database();
+    $conn = $db->getConn();
+
+    if (User::authenticate($conn, $_POST['username'], $_POST['password'])) {
 
         session_regenerate_id(true);
 

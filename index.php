@@ -2,7 +2,7 @@
 
 require 'classes/Article.php';
 require 'classes/Database.php';
-require 'includes/auth.php';
+require 'classes/Auth.php';
 
 session_start();
 
@@ -18,11 +18,11 @@ $articles = Article::getAllArticles($conn);
 
 <?php require 'includes/header.php' ?>
 
-<?php if (isLoggedIn()) : ?>
+<?php if (Auth::isLoggedIn()) : ?>
     <a href="/udemy_php/new-article.php">New Article</a>
 <?php endif ?>
 
-<?php if (isLoggedIn()) : ?>
+<?php if (Auth::isLoggedIn()) : ?>
     <p>You are logged in!</p> <a href="logout.php">Log out</a>
 
 <?php else : ?>
