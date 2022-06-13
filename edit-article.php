@@ -1,22 +1,19 @@
 <?php
 
-require 'includes/database.php';
-require 'includes/article-func.php';
+require 'classes/Database.php';
+require 'classes/Article.php';
+
 require 'includes/url.php';
 
 
-$conn = getDB();
+$db = new Database();
+$conn = $db->getConn();
 
 if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
-    $article = getArticle($conn, $_GET['id']);
+    $article = Article::getSingleArticle($conn, $_GET['id']);
 
-    if ($article) {
-        $id = $article['id'];
-        $title = $article['title'];
-        $content = $article['content'];
-        $published_at = $article['published_at'];
-    } else {
+    if (!$article) {
 
         die('article not found');
     }
@@ -27,41 +24,14 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    $published_at = $_POST['published_at'];
-
-    $errors = validateArticle($title, $content, $published_at);
-
-    if (empty($errors)) {
-
-        $sql = "UPDATE article 
-                SET title = ?,
-                content = ?,
-                published_at = ?
-                WHERE id = ?"; // placeholders for sql statement
+    $article->title = $_POST['title'];
+    $article->content = $_POST['content'];
+    $article->published_at = $_POST['published_at'];
 
 
-        $statement = mysqli_prepare($conn, $sql); // prepare the sql statement
 
-        if ($statement === false) {
-            echo mysqli_error($conn);
-        } else {
-
-            if ($_POST["published_at"] == "") {
-                $_POST["published_at"] = null;
-            }
-
-
-            mysqli_stmt_bind_param($statement, "sssi", $title, $content, $published_at, $id); // bind placeholders to actual values
-
-            if (mysqli_stmt_execute($statement)) {
-
-                redirect("/article.php?id=$id");
-            } else {
-                mysqli_stmt_error($statement);
-            }
-        }
+    if ($article->updateArticle($conn)) {
+        redirect("/article.php?id={$article->id}");
     }
 }
 ?>

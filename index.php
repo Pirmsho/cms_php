@@ -1,5 +1,6 @@
 <?php
 
+require 'classes/Article.php';
 require 'classes/Database.php';
 require 'includes/auth.php';
 
@@ -8,12 +9,8 @@ session_start();
 $db = new Database();
 $conn = $db->getConn();
 
-$sql = "SELECT * FROM article ORDER BY id;";
 
-$results = $conn->query($sql); // results from given query 
-
-$articles = $results->fetchAll(PDO::FETCH_ASSOC); // fetch all rows with given query and assign it to 
-
+$articles = Article::getAllArticles($conn);
 
 
 
