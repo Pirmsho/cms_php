@@ -1,8 +1,10 @@
 <?php
 
-require 'includes/init.php';
+require '../includes/init.php';
 
-$conn = require 'includes/db.php';
+Auth::requireLogin();
+
+$conn = require '../includes/db.php';
 
 if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
@@ -21,13 +23,13 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
     if ($article->deleteArticle($conn)) {
-        Url::redirect('/index.php');
+        Url::redirect('/admin/index.php');
     }
 }
 
 ?>
 
-<?php require 'includes/header.php' ?>
+<?php require '../includes/header.php' ?>
 
 <h2>Delete Article</h2>
 <form method="POST">
@@ -35,4 +37,4 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     <button>Delete</button>
     <a href="article.php?id=<?= $article->id ?>">Cancel</a>
 </form>
-<?php require 'includes/footer.php' ?>
+<?php require '../includes/footer.php' ?>

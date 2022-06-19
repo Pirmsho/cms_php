@@ -12,4 +12,17 @@
     <header>
         <h1>My Blog</h1>
     </header>
+    <nav>
+        <?php if (Auth::isLoggedIn()) : ?>
+            <a href="/udemy_php/admin/index.php">Administration</a>
+            <a href="/udemy_php/admin/new-article.php">New Article</a>
+        <?php endif ?>
+
+        <?php if (Auth::isLoggedIn()) : ?>
+            <p>You are logged in!</p> <a href="/udemy_php/logout.php">Log out</a>
+
+        <?php else : ?>
+            <p>You are not logged in! Please log in to add a new article.</p> <a href="/udemy_php/login.php">Log in</a>
+        <?php endif; ?>
+    </nav>
     <main>

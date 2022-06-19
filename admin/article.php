@@ -1,8 +1,11 @@
 <?php
 
-require 'includes/init.php';
+require '../includes/init.php';
 
-$conn = require 'includes/db.php';
+
+Auth::requireLogin();
+
+$conn = require '../includes/db.php';
 
 if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
@@ -14,17 +17,18 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 ?>
 
 
-<?php require 'includes/header.php'  ?>
+<?php require '../includes/header.php'  ?>
 <?php if ($article) : ?>
     <article>
         <h2><?= htmlspecialchars($article->title);  ?></h2>
         <p><?= htmlspecialchars($article->content);  ?></p>
     </article>
 
-
+    <a href="edit-article.php?id=<?= $article->id; ?>">Edit Article</a>
+    <a href="delete-article.php?id=<?= $article->id; ?>">Delete Article</a>
 <?php else :  ?>
     <p>No Articles Found.</p>
 
 
 <?php endif; ?>
-<?php require 'includes/footer.php'  ?>
+<?php require '../includes/footer.php'  ?>

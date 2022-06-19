@@ -1,8 +1,10 @@
 <?php
 
-require 'includes/init.php';
+require '../includes/init.php';
 
-$conn = require 'includes/db.php';
+Auth::requireLogin();
+
+$conn = require '../includes/db.php';
 
 if (isset($_GET['id'])) { // check if id is number and not null, for safety
 
@@ -26,15 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($article->updateArticle($conn)) {
-        Url::redirect("/article.php?id={$article->id}");
+        Url::redirect("/admin/article.php?id={$article->id}");
     }
 }
 ?>
 
-<?php require 'includes/header.php'  ?>
+<?php require '../includes/header.php'  ?>
 
 <h2>Edit Article</h2>
 
-<?php require 'includes/article-form.php'  ?>
+<?php require '../includes/article-form.php'  ?>
 
-<?php require 'includes/footer.php'  ?>
+<?php require '../includes/footer.php'  ?>
