@@ -19,6 +19,25 @@ class Article
         return  $results->fetchAll(PDO::FETCH_ASSOC); // fetch all rows with given query and assign it to 
     }
 
+    public static function getPage($conn, $limit, $offset)
+    {
+        $sql = "SELECT *
+                FROM article
+                ORDER BY id
+                LIMIT :limit
+                OFFSET :offset";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // fetch single article function
     public static function getSingleArticle($conn, $id, $columns = '*')
     {
@@ -143,5 +162,11 @@ class Article
                 return false;
             }
         }
+    }
+
+    // function to count number of articles
+    public static function getTotal($conn)
+    {
+        return $conn->query('SELECT COUNT(*) FROM article')->fetchColumn();
     }
 }

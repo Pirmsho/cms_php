@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <h1>My Blog</h1>
+        <h1> <a href="/udemy_php">My Blog</a></h1>
     </header>
     <nav>
         <?php if (Auth::isLoggedIn()) : ?>

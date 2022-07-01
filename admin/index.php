@@ -7,7 +7,9 @@ Auth::requireLogin();
 $conn = require '../includes/db.php';
 
 
-$articles = Article::getAllArticles($conn);
+$paginator = new Paginator($_GET['page'] ?? 1, 6, Article::getTotal($conn));
+
+$articles = Article::getPage($conn, $paginator->limit, $paginator->offset);
 
 
 
@@ -41,5 +43,6 @@ $articles = Article::getAllArticles($conn);
         </tbody>
     </table>
 
+    <?php require '../includes/pagination.php' ?>
 <?php endif; ?>
 <?php require '../includes/footer.php'  ?>
