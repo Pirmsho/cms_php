@@ -18,6 +18,11 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
 <?php if ($article) : ?>
     <article>
         <h2><?= htmlspecialchars($article->title);  ?></h2>
+
+        <?php if ($article->image_file) : ?>
+            <img src="uploads/<?= $article->image_file ?>" alt="article image">
+        <?php endif; ?>
+
         <p><?= htmlspecialchars($article->content);  ?></p>
     </article>
 

@@ -12,6 +12,7 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset);
 
 
 
+
 ?>
 
 <?php require 'includes/header.php' ?>

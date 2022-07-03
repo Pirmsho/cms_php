@@ -7,6 +7,7 @@
                 Previous Page
             <?php endif; ?>
         </li>
+
         <li>
             <?php if ($paginator->next) : ?>
                 <a href="?page=<?= $paginator->next; ?>">Next Page</a>
