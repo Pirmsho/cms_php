@@ -21,6 +21,8 @@ if (isset($_GET['id'])) { // check if id is number and not null, for safety
     die("id not supplied, article not found");
 }
 
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     var_dump($_FILES);

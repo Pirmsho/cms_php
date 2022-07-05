@@ -6,17 +6,28 @@ Auth::requireLogin();
 
 $article = new Article();
 
+$category_ids = [];
+
+$conn = require '../includes/db.php';
+
+$categories = Category::getAllCategories($conn);
+
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $conn = require '../includes/db.php';
+
 
     $article->title = $_POST['title'];
     $article->content = $_POST['content'];
     $article->published_at = $_POST['published_at'];
 
-
+    $category_ids = $_POST['category'] ?? [];
 
     if ($article->createNewArticle($conn)) {
+
+        $article->setCategories($conn, $category_ids);
+
         Url::redirect("/admin/article.php?id={$article->id}");
     }
 }
