@@ -13,7 +13,7 @@ class Article
     // fetch all articles function
     public static function getAllArticles($conn)
     {
-        $sql = "SELECT * FROM article ORDER BY id;";
+        $sql = "SELECT * FROM article ORDER BY id;"; // SQL statement
 
         $results = $conn->query($sql); // results from given query 
 

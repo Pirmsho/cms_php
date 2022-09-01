@@ -13,7 +13,6 @@ $conn = require 'includes/db.php';
 
 $categories = Category::getAllCategories($conn);
 
-var_dump($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
